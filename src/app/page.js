@@ -14,16 +14,18 @@ export default function Home() {
     setIsLoading(true);
 
 
-    const name = event.target.name.value;
-    const age = event.target.age.value;
-    const topic = event.target.topic.value;
+    const one = event.target.one.value;
+    const two = event.target.two.value;
+    const wea = event.target.wea.value;
+    const place = event.target.place.value;
 
-    const response = await axios.post("/api/create-story", {
-      name,
-      age,
-      topic
-    })
-    // console.log(response.data.answer)
+    const response = await axios.post("/api/create-story/create-image", {
+      one,
+      two,
+      wea,
+      place,
+    });
+    console.log(response.data)
     setAnswer(response.data.answer)
     setIsLoading(false);
 
@@ -33,17 +35,22 @@ export default function Home() {
     <div>
       <form onSubmit={note} className="flex flex-col">
 
-        <input className="border-slate-500" type="text" name="name" placeholder="กรอกชื่อ" />
+        <div className="text-yellow-900 text-4xl justify-items-center p-2" >Let's create a fighting scene!</div>
 
-        <input className="border-slate-500" type="number" name="age" placeholder="กรอกอายุ" />
+        <input className="border-orange-500 p-4 m-2" type="text" maxLength="20" name="one" placeholder="ใคร?" />
 
-        <input className="border-slate-500" type="text" maxLength="20" name="topic" placeholder="กรอกหัวข้อที่ต้องการ" />
+        <input className="border-orange-500 p-4 m-2" type="text" maxLength="20" name="two" placeholder="กำลังสู้กับใคร?" />
 
-        <button type="submit" disabled={isLoading}>{isLoading ? 'Loading' : 'Submit'}</button>
+        <input className="border-orange-500 p-4 m-2" type="text" maxLength="20" name="wea" placeholder="ใช้อาวุธอะไร?" />
+
+        <input className="border-orange-500 p-4 m-2" type="text" maxLength="20" name="place" placeholder="ที่ไหน?" />
+
+        <button className="outline outline-offset-2 text-yellow-900 border-yellow-300 m-10" type="submit" disabled={isLoading} >{isLoading ? 'Loading' : 'Go!'}</button>
 
       </form>
       <p className="p-4">{isLoading ? 'Loading...' : ''}</p>
       <p className="p-4">{answer}</p>
+      {answer && <img src={answer} className="w-full" alt ="AI generated image" />}
     </div>
   );
 }
